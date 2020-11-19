@@ -41,18 +41,24 @@ namespace BitOperationsTask
                 throw new ArgumentException($"i should be less than or equal to j.");
             }
 
-            if (31 - (j - i + 1) < 0)
+            int mask;
+            if (j == 31)
             {
-                return sourceNumber;
+                mask = -1;
+            }
+            else
+            {
+                mask = int.MaxValue;
             }
 
-            var mask = int.MaxValue;
             var countOfBits = j - i + 1;
-            var position = 31 - countOfBits;
+            var position = Math.Abs(countOfBits - 31);
             mask >>= position;
             sourceNumber &= mask;
+
             sourceNumber <<= i;
             mask <<= i;
+
             destinationNumber &= ~mask;
             destinationNumber |= sourceNumber;
 
